@@ -153,11 +153,11 @@ public class MatrizDispersa {
         this.insertar(nuevo);}
     }
     
-    public void insertar(NodoMatriz nodito) {
-        NodoMatriz nuevo = nodito;
-        int fila = nodito.getY();
-        int columna = nodito.getX();
-        String color = nodito.getHexaColor();
+    public void insertar(NodoMatriz nodo) {
+        NodoMatriz nuevo = nodo;
+        int fila = nodo.getY();
+        int columna = nodo.getX();
+        String color = nodo.getHexaColor();
         NodoMatriz inicioFila = obtenerFila(fila,true);
         NodoMatriz inicioColumna = obtenerColumna(columna,true);
     
@@ -240,7 +240,6 @@ public class MatrizDispersa {
             }
             salida = salida + "</TR>\n";
         }
-        
         salida = salida+"</TABLE>>];\n}";
         File imagenSalida = new File("./grafica.dot");
         if(!imagenSalida.exists()){
@@ -252,29 +251,6 @@ public class MatrizDispersa {
         Main.saveFile(salida, imagenSalida.getAbsolutePath());
         String command = "dot -Tpng grafica.dot -o ImagenGenerada.png"; 
         Runtime.getRuntime().exec(command);
-        
-        
-    }
-    
-    //Proximamente
-    public void graficarNodos(){
-        String salida = "digraph dibujo{\n" + "rankdir=UD;\n" + "node[shape=box];\n" + "\n";
-        NodoMatriz nodo = triangular(0,0);
-        salida += "{\n" + "rank=min;\n" + "m[label=\"0\" ];\n";
-        NodoMatriz aux;
-        while(nodo != null) {
-            aux = nodo;
-            while(nodo != null) {
-                
-                aux.getSigColumna();
-            } 
-            nodo = nodo.getSigFila();
-        }
-        
-        
-    }
-    
-    
-    
+    }         
 }
  

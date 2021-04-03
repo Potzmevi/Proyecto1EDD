@@ -29,18 +29,14 @@ import Main.NodoDuplicado;
 public class Controlador {
     
    
-    private static ArbolAVL usuarios = new ArbolAVL();
-    private static ListaDoble imagenes = new ListaDoble();
+    public static ArbolAVL usuarios = new ArbolAVL();
+    public static ListaDoble imagenes = new ListaDoble();
     
     
     public static void insertarUsuario(String id) throws Exception{
         usuarios.insertar(id,null);
     }
-    
-    
-    
-   
-    
+ 
    public static void insertarUsuario(String id,List<Integer> a) throws NodoDuplicado {
         Usuario usuario;
         ListaDoble lista = new ListaDoble();
@@ -72,18 +68,25 @@ public class Controlador {
         
     }
     
-    public static void modificarUsuario(String id,String newId,String as){
+    public static void modificarUsuario(String id,String newId,String lista){
+        NodoAVL userNode = usuarios.buscar(id);
+        NodoAVL userNew = usuarios.buscar(newId);
         Usuario usuario = buscarUsuario(id);
         ListaDoble nuevalista = new ListaDoble();
-        if(usuario != null) {
-            String[] a = as.split(",");
+        if(userNew == null) {
+            String[] a = lista.split(",");
             for (String i : a) {
                 NodoLista nodo = imagenes.buscar(i);
                 if(nodo != null)
                     nuevalista.insertar(nodo);
             }
-            usuario.setListaImagenes(nuevalista);
             usuario.setId(newId);
+            usuario.setListaImagenes(nuevalista);
+            userNode.setInfo(usuario);
+            userNode.setClave(newId);
+            JOptionPane.showMessageDialog(null, "Usuario modificado");
+        }else{
+            JOptionPane.showMessageDialog(null, "Usuario con ese ID ya existe");
         }
     }
     
@@ -92,6 +95,12 @@ public class Controlador {
         if(userNode!= null) 
             return (Usuario)userNode.getInfo();
         return null;
+    }
+    
+     public static void eliminarNodo(String id){
+        NodoAVL user = usuarios.buscar(id);
+        usuarios.eliminar(user);
+        JOptionPane.showMessageDialog(null, "Usuario "+id+" Eliminado");
     }
     
     public static void crearUsuario(String id,String as) {
