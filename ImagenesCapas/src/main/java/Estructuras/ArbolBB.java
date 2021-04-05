@@ -1,7 +1,8 @@
 package Estructuras;
 
 import Nodos.NodoAb;
-import Nodos.NodoLista;
+import Nodos.NodoCola;
+
 
 public class ArbolBB
 {
@@ -10,7 +11,7 @@ public class ArbolBB
     private Cola cola;
     public ArbolBB()
     {
-        this( "abb" );    
+      
     }
     
     public ArbolBB(String nombre)
@@ -21,7 +22,7 @@ public class ArbolBB
     
     public boolean estaVacio(){ return null == raiz; }
     
-    public void insertar(int llave, Object dato)
+    public void insertar(String llave, Object dato)
     {
         if( estaVacio() )
             raiz = new NodoAb( llave, dato );
@@ -36,16 +37,16 @@ public class ArbolBB
             raiz.insertar( nodo );
     }
     
-    public NodoAb buscar(int id,NodoAb raiz) {
+    public NodoAb buscar(String id,NodoAb raiz) {
         if(estaVacio()) return null;
-        if( id < raiz.llave )
+        if( id.compareTo(raiz.llave) <0 )
         {
             if( null == raiz.izq )
             {}
             else
                 return buscar(id,raiz.izq);
         }
-        else if( id > raiz.llave )
+        else if( id.compareTo(raiz.llave) >0 )
         {
             if( null == raiz.der )
             {}
@@ -59,7 +60,7 @@ public class ArbolBB
         return null;
     }
     
-    public NodoAb buscar(int id){
+    public NodoAb buscar(String id){
         return buscar(id,this.raiz);
     }
     
@@ -67,14 +68,14 @@ public class ArbolBB
     {
         if( null == nodo ) return;
         inOrden( nodo.izq );
-        cola.encolar(new NodoLista((cola.size +1)+"",nodo.dato));
+        cola.encolar(new NodoCola((cola.size +1)+"",nodo.dato));
         inOrden( nodo.der );
     }
     
     private void preOrden(NodoAb nodo)
     {
         if( null == nodo ) return;
-        cola.encolar(new NodoLista((cola.size +1)+"",nodo.dato));
+        cola.encolar(new NodoCola((cola.size +1)+"",nodo.dato));
         preOrden( nodo.izq );
         preOrden( nodo.der );
     }
@@ -84,7 +85,7 @@ public class ArbolBB
         if( null == nodo ) return;
         postOrden( nodo.izq );
         postOrden( nodo.der );
-        cola.encolar(new NodoLista((cola.size +1)+"",nodo.dato));
+        cola.encolar(new NodoCola((cola.size +1)+"",nodo.dato));
     }
     
     

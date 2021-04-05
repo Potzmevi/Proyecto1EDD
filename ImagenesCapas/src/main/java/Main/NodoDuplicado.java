@@ -7,7 +7,7 @@ package Main;
 
 /**
  *
- * @author meza4
+ * @author anclenius
  */
 public class NodoDuplicado extends RuntimeException{
     public NodoDuplicado(){

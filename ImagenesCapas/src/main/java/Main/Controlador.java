@@ -6,21 +6,13 @@
 package Main;
 
 import Estructuras.ArbolAVL;
-import Estructuras.Cola;
 import Estructuras.ListaDoble;
-import Estructuras.MatrizDispersa;
-import Objetos.Capa;
-import Objetos.Imagen;
 import Objetos.Usuario;
 import Nodos.NodoAVL;
-import Nodos.NodoAb;
 import Nodos.NodoLista;
-import Nodos.NodoMatriz;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
-import Main.NodoDuplicado;
 
 /**
  *

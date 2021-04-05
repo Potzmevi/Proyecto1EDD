@@ -5,7 +5,9 @@
  */
 package UI;
 
+import Estructuras.ArbolBB;
 import Estructuras.MatrizDispersa;
+import Nodos.NodoAb;
 
 /**
  *
@@ -102,6 +104,10 @@ public class CrearCapa extends javax.swing.JFrame {
         MatrizDispersa matrizDispersa = new MatrizDispersa();
         matrizDispersa.insertar(1, 1, "#000000");
         matrizDispersa.insertar(5, 5, "#000000");
+        ArbolBB arbol = new ArbolBB();
+        NodoAb nodoarbol = new NodoAb("3", matrizDispersa);
+        arbol.insertar(nodoarbol);
+        System.out.println(arbol.totalNodos());
         try {
             matrizDispersa.graficarMatriz();
         } catch (Exception e) {
