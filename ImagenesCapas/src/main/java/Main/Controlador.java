@@ -6,10 +6,15 @@
 package Main;
 
 import Estructuras.ArbolAVL;
+import Estructuras.ArbolBB;
 import Estructuras.ListaDoble;
+import Estructuras.MatrizDispersa;
 import Objetos.Usuario;
 import Nodos.NodoAVL;
 import Nodos.NodoLista;
+import Objetos.Capa;
+import Objetos.Imagen;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
@@ -20,10 +25,18 @@ import javax.swing.JOptionPane;
  */
 public class Controlador {
     
-   
+   public static ArbolBB capas = new ArbolBB();
     public static ArbolAVL usuarios = new ArbolAVL();
     public static ListaDoble imagenes = new ListaDoble();
     
+    public static void insertarCapa(int id,MatrizDispersa capa){
+        capas.insertar(id, new Capa(id,capa));
+        //capa.graficarMatriz();
+    }
+    
+    public static void insertarCapa(MatrizDispersa matriz){
+        capas.insertar(capas.totalNodos() + 1,matriz);
+    }
     
     public static void insertarUsuario(String id) throws Exception{
         usuarios.insertar(id,null);
@@ -108,4 +121,47 @@ public class Controlador {
             JOptionPane.showMessageDialog(null, "Usuario duplicado");
         }   
     }   
+    
+    public static void generarImagenInOrden(String id,String as) throws IOException{
+        ArbolBB arbol = generarArbol(as);
+        Imagen ima = new Imagen(id,arbol.inOrden());
+        imagenes.insertar(id,ima);
+        ima.graficar();
+    }
+    
+    public static void generarImagenPreOrden(String id,String as) throws IOException{
+        ArbolBB arbol = generarArbol(as);
+        Imagen ima = new Imagen(id,arbol.preOrden());
+        
+        imagenes.insertar(id,ima);
+        ima.graficar();
+    }
+    
+    public static void generarImagenPostOrden(String id,String as) throws IOException{
+        ArbolBB arbol = generarArbol(as);
+        Imagen ima = new Imagen(id,arbol.postOrden());
+        imagenes.insertar(id,ima);
+        ima.graficar();
+    }
+    
+    private static ArbolBB generarArbol(String as){
+        String[] a = as.split(",");
+        ArbolBB arbol = new ArbolBB();
+        for (String string : a) {
+            arbol.insertar(capas.buscar(Integer.parseInt(string)));
+        }
+        return arbol;
+    }
+    
+    public static void Graficarimagen() throws IOException{
+        MatrizDispersa matrizDispersa = new MatrizDispersa();
+        matrizDispersa.insertar(1, 1, "#000000");
+        matrizDispersa.insertar(5, 5, "#000000");
+        MatrizDispersa matrizDispersa2 = new MatrizDispersa();
+        matrizDispersa2.insertar(2, 2, "#000000");
+        matrizDispersa2.insertar(3, 3, "#000000");
+        insertarCapa(2,matrizDispersa);
+        insertarCapa(3,matrizDispersa2);
+        generarImagenInOrden("111", "2,3");
+    }
 }

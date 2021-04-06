@@ -5,6 +5,9 @@
  */
 package Main;
 
+import Estructuras.ArbolBB;
+import Estructuras.MatrizDispersa;
+import Objetos.Imagen;
 import UI.MenuPrincipal;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
@@ -15,22 +18,27 @@ import java.io.IOException;
  * @author meza4
  */
 public class Main {
-    public static void main(String[] args) {
-          MenuPrincipal menu=new MenuPrincipal();
+
+   
+
+    public static void main(String[] args) throws IOException {
+        Controlador controlador = new Controlador();
+        controlador.Graficarimagen();
+        MenuPrincipal menu = new MenuPrincipal();
     }
-    
-    public static void saveFile(String texto,String absolutePath) {
-        
-	FileWriter escritor = null;
-	try {
-            escritor = new FileWriter(absolutePath,true);
+
+    public static void saveFile(String texto, String absolutePath) {
+
+        FileWriter escritor = null;
+        try {
+            escritor = new FileWriter(absolutePath, true);
             BufferedWriter out = new BufferedWriter(escritor);
             out.write("");
             out.write(texto);
             out.close();
-	} catch (IOException e) {
+        } catch (IOException e) {
             System.out.println("============== error escribiendo en archivo");
-	} finally {
+        } finally {
             try {
                 escritor.close();
             } catch (IOException ex) {

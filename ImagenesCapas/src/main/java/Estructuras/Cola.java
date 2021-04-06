@@ -5,81 +5,84 @@
  */
 package Estructuras;
 
+import Main.Controlador;
+import Nodos.NodoAb;
 import Nodos.NodoCola;
+import Nodos.NodoLista;
 
 /**
  *
  * @author meza4
  */
-public class Cola  {
-
-    NodoCola inicio;
-    NodoCola fin;
+public class Cola implements Cloneable{
+    NodoLista inicio, fin;
     int size;
-
-    public Cola() {
+    
+    public Cola(){
         inicio = fin = null;
         size = 0;
     }
-
+    
     public int size() {
         return this.size;
     }
-
-    public void encolar(NodoCola nuevo) {
-        if (!estaVacia()) {
+    
+    public void encolar(NodoLista nuevo){
+        if(!estaVacia()) {
             fin.setSiguiente(nuevo);
             fin = nuevo;
             size++;
         } else {
-            inicio = nuevo;
-            fin = nuevo;
+            inicio = fin = nuevo;
         }
     }
-
-    public NodoCola descolar() {
-        if (!estaVacia()) {
-            NodoCola aux = inicio;
-            if (inicio == fin) {
-                inicio = null;
-                fin = null;
+    
+    public NodoLista descolar() {
+        if(!estaVacia()) {
+            NodoLista aux = inicio;
+            if(inicio == fin) {
+                inicio = fin = null;
                 size--;
                 return aux;
             }
-
+            
             inicio = inicio.getSiguiente();
             size--;
             return aux;
         }
-        System.out.println("Cola Vacia");
-        return null;
+            System.out.println("Lista Vacia");
+            return null;
     }
-
-    public boolean estaVacia() {
-        if (inicio == fin && inicio == null) {
-            return true;
-        }
+    
+    public boolean estaVacia(){
+        if(inicio == fin && inicio == null) return true;
         return false;
     }
-
-    public void setInicio(NodoCola nodo) {
+    
+    public void setInicio(NodoLista nodo){
         this.inicio = nodo;
     }
-
-    public void setFinal(NodoCola nodo) {
+    
+    public void setFinal(NodoLista nodo){
         this.fin = nodo;
     }
-
-    public NodoCola getInicio() {
+    
+    public NodoLista getInicio(){
         return this.inicio;
     }
-
-    public NodoCola getFinal() {
+    
+    public NodoLista getFinal(){
         return this.fin;
     }
-
-    public void setSize(int size) {
+    
+    public void setSize(int size){
         this.size = size;
     }
 
+    @Override
+    public Cola clone() throws CloneNotSupportedException {
+        return (Cola)super.clone(); //To change body of generated methods, choose Tools | Templates.
+    }
+    
+    
 }

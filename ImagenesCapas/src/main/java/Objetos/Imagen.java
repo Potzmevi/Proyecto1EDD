@@ -7,7 +7,10 @@ package Objetos;
 
 import Estructuras.Cola;
 import Estructuras.MatrizDispersa;
+import Main.Controlador;
+import Nodos.NodoAb;
 import Nodos.NodoCola;
+import Nodos.NodoLista;
 import Nodos.NodoMatriz;
 import java.io.IOException;
 
@@ -18,11 +21,13 @@ import java.io.IOException;
 public class Imagen {
     private String id;
     private Cola capas;
+    private Cola cola;
     private MatrizDispersa imagen;
     
     public Imagen(String id) {
         this.id = id;
         capas = new Cola();
+        cola = new Cola();
         imagen = null;
     }
     
@@ -48,7 +53,7 @@ public class Imagen {
     public MatrizDispersa hacerImagen(){
         MatrizDispersa imAgen = new MatrizDispersa();
         if(capas.estaVacia()) return null;
-        NodoCola aux = capas.descolar();
+        NodoLista aux = capas.descolar();
         MatrizDispersa capa;
         while(aux != null) {
             capa = ((Capa)aux.getInfo()).getMatriz();
@@ -64,6 +69,8 @@ public class Imagen {
                     }
                 }
             }
+            
+            System.out.println("\n\n\n");
             aux = capas.descolar();
         }
         

@@ -11,16 +11,16 @@ package Nodos;
  */
 public class NodoAb {
     public NodoAb izq;
-    public String llave;
+    public int llave;
     public Object dato;
     public NodoAb der;
     
-    public NodoAb(String llave, Object dato)
+    public NodoAb(int llave, Object dato)
     {
         this( llave, dato, null, null );
     }
     
-    public NodoAb(String llave, Object dato, NodoAb izq, NodoAb der)
+    public NodoAb(int llave, Object dato, NodoAb izq, NodoAb der)
     {
         this.llave = llave;
         this.dato = dato;
@@ -28,17 +28,16 @@ public class NodoAb {
         this.der = der;
     }
     
-    public void insertar(String llave, Object dato)
+    public void insertar(int llave, Object dato)
     {
-        
-        if( llave.compareTo(this.llave) <0 )
+        if( llave < this.llave )
         {
             if( null == this.izq )
                 izq = new NodoAb( llave, dato );
             else
                 izq.insertar( llave, dato );
         }
-        else if( llave.compareTo(this.llave) >0 )
+        else if( llave > this.llave )
         {
             if( null == this.der )
                 der = new NodoAb( llave, dato );
@@ -47,20 +46,20 @@ public class NodoAb {
         }
         else
         {
-            System.out.println( "Datos repetidos" );
+            System.out.println( "Datos repetidos, no se insertan!" );
         }
     }
     
     public void insertar(NodoAb nodo)
     {
-        if( llave.compareTo(this.llave) <0 )
+        if( llave < this.llave )
         {
             if( null == this.izq )
                 izq = nodo;
             else
                 izq.insertar( nodo );
         }
-        else if( llave.compareTo(this.llave) >0 )
+        else if( llave > this.llave )
         {
             if( null == this.der )
                 der = nodo;
@@ -69,7 +68,7 @@ public class NodoAb {
         }
         else
         {
-            System.out.println( "Datos repetidos" );
+            System.out.println( "Datos repetidos, no se insertan!" );
         }
     }
 }

@@ -1,0 +1,105 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package Estructuras;
+
+import Nodos.NodoListaDoble;
+import javax.swing.JOptionPane;
+
+/**
+ *
+ * @author meza4
+ */
+public class ListaDobleCircular {
+    private NodoListaDoble inicio;
+    private NodoListaDoble fin;
+    public int size;
+    
+    public ListaDobleCircular() {
+        inicio = null;
+        fin = null;
+    }
+
+    public void insertarNodo(NodoListaDoble nuevoNodo) {
+        if (inicio == null)
+        {
+            inicio = nuevoNodo;
+            fin = nuevoNodo;
+            inicio.setSiguiente(inicio);
+            inicio.setAnterior(fin);
+            size++;
+        }else if (nodoNoExiste(nuevoNodo.getId())) {
+            fin.setSiguiente(nuevoNodo);
+            nuevoNodo.setSiguiente(inicio);
+            nuevoNodo.setAnterior(fin);
+            fin = nuevoNodo;
+            inicio.setAnterior(fin);
+            size++;
+        } else{
+            System.out.println("NODO YA EXISTE: "+nuevoNodo.getId());
+        }
+    }
+    
+    public boolean nodoNoExiste(String id){
+        NodoListaDoble aux = inicio;
+        do
+        {            
+            if(aux.getId().equals(id)){
+                return false;
+            }
+            aux = aux.getSiguiente();
+            
+        } while (aux!=inicio);
+        
+        return true;
+    }
+    
+    public void mostrarDatos(){
+        NodoListaDoble aux = inicio;
+        System.out.println("Lista Circular Doblemente Enlazada");
+        do{
+            System.out.print("Nodo: "+aux.getId());
+            if(aux.getSiguiente()!=null){
+                System.out.print(" Siguiente: "+aux.getSiguiente().getId());
+            }
+            if(aux.getAnterior()!=null){
+                System.out.print(" Anterior: "+aux.getAnterior().getId());
+            }
+            System.out.println("\n\n**********************************************");
+            aux = aux.getSiguiente();
+        }while(aux!=inicio);
+        
+        
+    }
+    
+    public NodoListaDoble buscarNodo(String id){
+        if(inicio!=null){
+            NodoListaDoble aux = inicio;
+            do{
+                if(aux.getId().equals(id)){
+                    return aux;
+                }else{
+                    aux = aux.getSiguiente();
+                }
+            }while(aux!=inicio);
+        }
+        
+        return null;
+    }
+    
+    
+    
+    public void eliminarNodo(String id){
+        if(inicio != null){
+            NodoListaDoble nodo = buscarNodo(id);
+            NodoListaDoble nodoAnterior = nodo.getAnterior();
+            NodoListaDoble nodoSiguiente = nodo.getSiguiente();
+            nodoAnterior.setSiguiente(nodoSiguiente);
+            nodoSiguiente.setAnterior(nodoAnterior);
+            size--;
+            JOptionPane.showMessageDialog(null, "Se ha eliminado imagen correctamente.");
+        }
+    }
+}

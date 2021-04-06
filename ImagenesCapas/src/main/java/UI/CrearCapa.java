@@ -6,14 +6,18 @@
 package UI;
 
 import Estructuras.ArbolBB;
+import Estructuras.Cola;
 import Estructuras.MatrizDispersa;
 import Nodos.NodoAb;
+import Objetos.Imagen;
 
 /**
  *
  * @author meza4
  */
 public class CrearCapa extends javax.swing.JFrame {
+
+   
 
     /**
      * Creates new form GenerarCapa
@@ -101,20 +105,10 @@ public class CrearCapa extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        MatrizDispersa matrizDispersa = new MatrizDispersa();
-        matrizDispersa.insertar(1, 1, "#000000");
-        matrizDispersa.insertar(5, 5, "#000000");
-        ArbolBB arbol = new ArbolBB();
-        NodoAb nodoarbol = new NodoAb("3", matrizDispersa);
-        arbol.insertar(nodoarbol);
-        System.out.println(arbol.totalNodos());
-        try {
-            matrizDispersa.graficarMatriz();
-        } catch (Exception e) {
-        }
+       
 
     }//GEN-LAST:event_jButton1ActionPerformed
-
+   
     /**
      * @param args the command line arguments
      */
