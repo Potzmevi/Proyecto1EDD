@@ -6,7 +6,7 @@
 package Estructuras;
 
 
-import Nodos.NodoLista;
+import Nodos.NodoListaDoble;
 
 /**
  *
@@ -14,7 +14,7 @@ import Nodos.NodoLista;
  */
 public class ListaDoble {
     
-    public NodoLista inicio,fin;
+    public NodoListaDoble inicio,fin;
     public int size;
     
     public ListaDoble() {
@@ -28,7 +28,7 @@ public class ListaDoble {
     }
     
     public void insertar(String id,Object info){
-        NodoLista nodo = crearNodo(id,info);
+        NodoListaDoble nodo = crearNodo(id,info);
         if(listaVacia()){
             inicio = fin = nodo;
             inicio.setSiguiente(fin);
@@ -40,8 +40,8 @@ public class ListaDoble {
         size++;
     }
     
-    public void insertar(NodoLista nodito){
-        NodoLista nodo = nodito;
+    public void insertar(NodoListaDoble nodito){
+        NodoListaDoble nodo = nodito;
         if(listaVacia()){
             inicio = fin = nodo;
             inicio.setSiguiente(fin);
@@ -54,12 +54,12 @@ public class ListaDoble {
         size++;
     }
 
-    public NodoLista eliminar(String id){
+    public NodoListaDoble eliminar(String id){
         if(listaVacia()){
             System.out.println("Lista Vacia");
             return null;
         }
-        NodoLista aux = inicio;
+        NodoListaDoble aux = inicio;
         if(id.equals(inicio.getId())) {
             inicio = inicio.getSiguiente();
             return aux;
@@ -75,8 +75,8 @@ public class ListaDoble {
                 aux = aux.getSiguiente();
             }
             if(id.equals(aux.getId())) {
-                NodoLista anterior = aux.getAnterior();
-                NodoLista siguiente = aux.getSiguiente();
+                NodoListaDoble anterior = aux.getAnterior();
+                NodoListaDoble siguiente = aux.getSiguiente();
                 anterior.setSiguiente(siguiente);
                 siguiente.setAnterior(anterior);
                 size--;
@@ -87,11 +87,11 @@ public class ListaDoble {
         }
     }
     
-    public NodoLista buscar(String id) {
+    public NodoListaDoble buscar(String id) {
         if(listaVacia()){
             return null;
         }
-        NodoLista aux = inicio;
+        NodoListaDoble aux = inicio;
         if(id.equals(inicio.getId())) {
             return aux;
         } else if(id.equals(fin.getId())) {
@@ -111,7 +111,7 @@ public class ListaDoble {
             return null;
         }
     }
-    public static NodoLista crearNodo(String id,Object info) {
-        return new NodoLista(id,info);
+    public static NodoListaDoble crearNodo(String id,Object info) {
+        return new NodoListaDoble(id,info);
     }
 }

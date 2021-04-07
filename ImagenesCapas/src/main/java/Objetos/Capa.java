@@ -7,8 +7,7 @@ package Objetos;
 
 import Estructuras.Cola;
 import Estructuras.MatrizDispersa;
-import Nodos.NodoCola;
-import Nodos.NodoLista;
+import Nodos.NodoListaDoble;
 
 
 /**
@@ -36,7 +35,7 @@ public class Capa {
         Cola cola = new Cola();
         for(int y = 1;y<=matriz.totalFilas;y++) {
             for(int x = 1;x<=matriz.totalColumnas;x++) {
-                cola.encolar(new NodoLista(cola.size()+1 + "",matriz.triangular(x, y)));
+                cola.encolar(new NodoListaDoble(cola.size()+1 + "",matriz.triangular(x, y)));
             }
         }
         return cola;

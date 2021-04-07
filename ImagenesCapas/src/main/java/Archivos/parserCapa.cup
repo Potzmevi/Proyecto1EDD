@@ -1,0 +1,43 @@
+package Archivos;
+
+import java_cup.runtime.*;
+import Estructuras.Cola;
+import Estructuras.MatrizDispersa;
+import Main.Controlador;
+import Nodos.NodoMatriz;
+import java_cup.runtime.XMLElement;
+
+parser code {:
+	MatrizDispersa matriz;
+	public parserCapas(LexerCup lex) {
+        super(lex);
+    }		 
+:}
+
+terminal Token Llave_a,Llave_c,Coma,PuntoComa,Numero,Color,Error;
+non terminal INICIO,SENTENCIA,CAPA,LINEA;
+
+start with INICIO;
+
+INICIO ::= INICIO SENTENCIA
+|
+;
+
+SENTENCIA ::=  Numero:D1 Llave_a CAPA Llave_c{:Controlador.insertarCapa(Integer.parseInt(D1.getLexeme()) , matriz);:}
+| error:e {:  :} 
+;
+
+CAPA ::= CAPA LINEA
+| {:matriz = new MatrizDispersa();:}
+;
+
+LINEA ::=Numero:R1 Coma Numero:R2 Coma Color:R3 PuntoComa{:matriz.insertar(Integer.parseInt(R1.getLexeme()),Integer.parseInt(R2.getLexeme()),String.valueOf(R3.getLexeme()));:}
+| error:e {:  :} 
+ ;
+
+
+
+
+
+
+

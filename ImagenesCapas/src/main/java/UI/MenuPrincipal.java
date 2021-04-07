@@ -5,6 +5,16 @@
  */
 package UI;
 
+import Archivos.parserCapas;
+import static Main.Controlador.crearUsuario;
+import static Main.Controlador.generarImagenInOrden;
+import java.io.File;
+import java.io.FileReader;
+import java.io.StringReader;
+import javafx.stage.FileChooser;
+import javax.swing.JFileChooser;
+import javax.swing.filechooser.FileNameExtensionFilter;
+
 /**
  *
  * @author meza4
@@ -273,7 +283,28 @@ public class MenuPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
-        // TODO add your handling code here:
+        JFileChooser fc = new JFileChooser();
+        FileNameExtensionFilter filtro = new FileNameExtensionFilter("*.Cap", "cap");
+        fc.setFileFilter(filtro);
+        int seleccion = fc.showOpenDialog(this);
+        if (seleccion == JFileChooser.APPROVE_OPTION) {
+            File fichero = fc.getSelectedFile();
+            try {
+                FileReader fr = new FileReader(fichero);
+                String cadena = "";
+                int valor = fr.read();
+                while (valor != -1) {
+                    cadena += (char) valor;
+                    valor = fr.read();
+                }
+                parserCapas s = new parserCapas(new Archivos.LexerCup(new StringReader(cadena)));
+                s.parse();
+                generarImagenInOrden("111", "1,2");
+                crearUsuario("userF", "111");
+            } catch (Exception e) {
+                System.out.println(e);
+            }
+        }
     }//GEN-LAST:event_jButton7ActionPerformed
 
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed

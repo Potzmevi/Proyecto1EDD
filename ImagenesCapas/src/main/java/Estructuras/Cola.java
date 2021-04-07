@@ -4,18 +4,14 @@
  * and open the template in the editor.
  */
 package Estructuras;
-
-import Main.Controlador;
-import Nodos.NodoAb;
-import Nodos.NodoCola;
-import Nodos.NodoLista;
+import Nodos.NodoListaDoble;
 
 /**
  *
  * @author meza4
  */
 public class Cola implements Cloneable{
-    NodoLista inicio, fin;
+    NodoListaDoble inicio, fin;
     int size;
     
     public Cola(){
@@ -27,7 +23,7 @@ public class Cola implements Cloneable{
         return this.size;
     }
     
-    public void encolar(NodoLista nuevo){
+    public void encolar(NodoListaDoble nuevo){
         if(!estaVacia()) {
             fin.setSiguiente(nuevo);
             fin = nuevo;
@@ -37,9 +33,9 @@ public class Cola implements Cloneable{
         }
     }
     
-    public NodoLista descolar() {
+    public NodoListaDoble descolar() {
         if(!estaVacia()) {
-            NodoLista aux = inicio;
+            NodoListaDoble aux = inicio;
             if(inicio == fin) {
                 inicio = fin = null;
                 size--;
@@ -59,19 +55,19 @@ public class Cola implements Cloneable{
         return false;
     }
     
-    public void setInicio(NodoLista nodo){
+    public void setInicio(NodoListaDoble nodo){
         this.inicio = nodo;
     }
     
-    public void setFinal(NodoLista nodo){
+    public void setFinal(NodoListaDoble nodo){
         this.fin = nodo;
     }
     
-    public NodoLista getInicio(){
+    public NodoListaDoble getInicio(){
         return this.inicio;
     }
     
-    public NodoLista getFinal(){
+    public NodoListaDoble getFinal(){
         return this.fin;
     }
     

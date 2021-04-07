@@ -7,10 +7,7 @@ package Objetos;
 
 import Estructuras.Cola;
 import Estructuras.MatrizDispersa;
-import Main.Controlador;
-import Nodos.NodoAb;
-import Nodos.NodoCola;
-import Nodos.NodoLista;
+import Nodos.NodoListaDoble;
 import Nodos.NodoMatriz;
 import java.io.IOException;
 
@@ -42,7 +39,7 @@ public class Imagen {
     }
     
     public void graficar() throws IOException {
-        System.out.println("Imagen: " + id + "\n\n");
+        //System.out.println("Imagen: " + id + "\n\n");
         if(this.imagen == null) {
             imagen = hacerImagen();
         }   
@@ -53,10 +50,10 @@ public class Imagen {
     public MatrizDispersa hacerImagen(){
         MatrizDispersa imAgen = new MatrizDispersa();
         if(capas.estaVacia()) return null;
-        NodoLista aux = capas.descolar();
+        NodoListaDoble aux = capas.descolar();
         MatrizDispersa capa;
         while(aux != null) {
-            capa = ((Capa)aux.getInfo()).getMatriz();
+            capa = ((Capa)aux.getContenido()).getMatriz();
             int filas = capa.totalFilas;
             int columnas = capa.totalColumnas;
             for(int y = 1;y <=filas;y++) {
@@ -69,12 +66,33 @@ public class Imagen {
                     }
                 }
             }
-            
-            System.out.println("\n\n\n");
             aux = capas.descolar();
         }
-        
         return imAgen;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public Cola getCola() {
+        return cola;
+    }
+
+    public void setCola(Cola cola) {
+        this.cola = cola;
+    }
+
+    public MatrizDispersa getImagen() {
+        return imagen;
+    }
+
+    public void setImagen(MatrizDispersa imagen) {
+        this.imagen = imagen;
     }
     
     

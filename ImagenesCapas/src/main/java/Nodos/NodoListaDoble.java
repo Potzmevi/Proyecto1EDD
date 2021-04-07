@@ -15,8 +15,9 @@ public class NodoListaDoble {
     private NodoListaDoble siguiente;
     private NodoListaDoble anterior;
 
-    public NodoListaDoble(String id) {
+    public NodoListaDoble(String id,Object contenido) {
         this.id = id;
+        this.contenido=contenido;
     }
 
     public String getId() {

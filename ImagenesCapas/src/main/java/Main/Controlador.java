@@ -1,20 +1,23 @@
- /*
+/*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
 package Main;
 
+import Archivos.parserCapas;
 import Estructuras.ArbolAVL;
 import Estructuras.ArbolBB;
 import Estructuras.ListaDoble;
+import Estructuras.ListaDobleCircular;
 import Estructuras.MatrizDispersa;
 import Objetos.Usuario;
 import Nodos.NodoAVL;
-import Nodos.NodoLista;
+import Nodos.NodoListaDoble;
 import Objetos.Capa;
 import Objetos.Imagen;
 import java.io.IOException;
+import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
@@ -24,127 +27,134 @@ import javax.swing.JOptionPane;
  * @author meza4
  */
 public class Controlador {
-    
-   public static ArbolBB capas = new ArbolBB();
+
+    public static ArbolBB capas = new ArbolBB();
     public static ArbolAVL usuarios = new ArbolAVL();
     public static ListaDoble imagenes = new ListaDoble();
-    
-    public static void insertarCapa(int id,MatrizDispersa capa){
-        capas.insertar(id, new Capa(id,capa));
+    public static ListaDobleCircular listaimagenes = new ListaDobleCircular();
+
+    public static void insertarCapa(int id, MatrizDispersa capa) {
+        capas.insertar(id, new Capa(id, capa));
         //capa.graficarMatriz();
     }
-    
-    public static void insertarCapa(MatrizDispersa matriz){
-        capas.insertar(capas.totalNodos() + 1,matriz);
+
+    public static void insertarCapa(MatrizDispersa matriz) {
+        capas.insertar(capas.totalNodos() + 1, matriz);
     }
-    
-    public static void insertarUsuario(String id) throws Exception{
-        usuarios.insertar(id,null);
+
+    public static void insertarUsuario(String id) throws Exception {
+        usuarios.insertar(id, null);
     }
- 
-   public static void insertarUsuario(String id,List<Integer> a) throws NodoDuplicado {
+
+    public static void insertarUsuario(String id, List<Integer> a) throws NodoDuplicado {
         Usuario usuario;
         ListaDoble lista = new ListaDoble();
-        if(!a.isEmpty()) {
-            NodoLista nodo;
+        if (!a.isEmpty()) {
+            NodoListaDoble nodo;
             for (Integer i : a) {
-                nodo = imagenes.buscar(i+"");
-                if(nodo != null) {
-                    lista.insertar(nodo); }
-                
+                nodo = listaimagenes.buscar(i + "");
+                if (nodo != null) {
+                    lista.insertar(nodo);
+                }
             }
-            usuario = new Usuario(id,lista);
+            usuario = new Usuario(id, lista);
         } else {
             usuario = new Usuario(id);
         }
-        usuarios.insertar(id,usuario);
+        usuarios.insertar(id, usuario);
     }
-    
-    public static int getUsersSize(){
+
+    public static int getUsersSize() {
         return usuarios.size;
     }
 
-    public static void graficarUsuarios(){
+    public static void graficarUsuarios() {
         String salida = "diagraph {\n";
     }
-    
-    public static void graficarCapas(){
+
+    public static void graficarCapas() {
         String salida = "diagraph g {\n";
-        
+
     }
-    
-    public static void modificarUsuario(String id,String newId,String lista){
+
+    public static void modificarUsuario(String id, String newId, String lista) {
         NodoAVL userNode = usuarios.buscar(id);
         NodoAVL userNew = usuarios.buscar(newId);
         Usuario usuario = buscarUsuario(id);
         ListaDoble nuevalista = new ListaDoble();
-        if(userNew == null) {
+        if (userNew == null) {
             String[] a = lista.split(",");
             for (String i : a) {
-                NodoLista nodo = imagenes.buscar(i);
-                if(nodo != null)
+                NodoListaDoble nodo = listaimagenes.buscar(i);
+                if (nodo != null) {
                     nuevalista.insertar(nodo);
+                }
             }
             usuario.setId(newId);
             usuario.setListaImagenes(nuevalista);
             userNode.setInfo(usuario);
             userNode.setClave(newId);
             JOptionPane.showMessageDialog(null, "Usuario modificado");
-        }else{
+        } else {
             JOptionPane.showMessageDialog(null, "Usuario con ese ID ya existe");
         }
     }
-    
+
     public static Usuario buscarUsuario(String id) {
         NodoAVL userNode = usuarios.buscar(id);
-        if(userNode!= null) 
-            return (Usuario)userNode.getInfo();
+        if (userNode != null) {
+            return (Usuario) userNode.getInfo();
+        }
         return null;
     }
-    
-     public static void eliminarNodo(String id){
+
+    public static void eliminarNodo(String id) {
         NodoAVL user = usuarios.buscar(id);
         usuarios.eliminar(user);
-        JOptionPane.showMessageDialog(null, "Usuario "+id+" Eliminado");
+        JOptionPane.showMessageDialog(null, "Usuario " + id + " Eliminado");
     }
-    
-    public static void crearUsuario(String id,String as) {
+
+    public static void crearUsuario(String id, String as) {
         List<Integer> a = new ArrayList<>();
         String[] p = as.split(",");
         for (String string : p) {
             a.add(Integer.parseInt(string));
         }
-        try{
-            insertarUsuario(id,a);
-            JOptionPane.showMessageDialog(null, "Usuario "+id+" insertado cantidad de usuarios:"+String.valueOf(getUsersSize()));
-        } catch(NodoDuplicado ex) {
+        try {
+            insertarUsuario(id, a);
+            JOptionPane.showMessageDialog(null, "Usuario " + id + " insertado cantidad de usuarios:" + String.valueOf(getUsersSize()));
+        } catch (NodoDuplicado ex) {
             JOptionPane.showMessageDialog(null, "Usuario duplicado");
-        }   
-    }   
-    
-    public static void generarImagenInOrden(String id,String as) throws IOException{
+        }
+    }
+
+    public static void generarImagenInOrden(String id, String as) throws IOException {
         ArbolBB arbol = generarArbol(as);
-        Imagen ima = new Imagen(id,arbol.inOrden());
-        imagenes.insertar(id,ima);
+        Imagen ima = new Imagen(id, arbol.inOrden());
+        // System.out.println(((Capa)arbol.preOrden().getFinal().getInfo()).getId());
+        NodoListaDoble nodo = new NodoListaDoble(id, ima);
+        listaimagenes.insertarNodo(nodo);
+        ima.graficar();
+
+    }
+
+    public static void generarImagenPreOrden(String id, String as) throws IOException {
+        ArbolBB arbol = generarArbol(as);
+        Imagen ima = new Imagen(id, arbol.preOrden());
+        NodoListaDoble nodo = new NodoListaDoble(id, ima);
+        listaimagenes.insertarNodo(nodo);
         ima.graficar();
     }
-    
-    public static void generarImagenPreOrden(String id,String as) throws IOException{
+
+    public static void generarImagenPostOrden(String id, String as) throws IOException {
         ArbolBB arbol = generarArbol(as);
-        Imagen ima = new Imagen(id,arbol.preOrden());
-        
-        imagenes.insertar(id,ima);
+        Imagen ima = new Imagen(id, arbol.postOrden());
+        NodoListaDoble nodo = new NodoListaDoble(id, ima);
+        listaimagenes.insertarNodo(nodo);
         ima.graficar();
     }
-    
-    public static void generarImagenPostOrden(String id,String as) throws IOException{
-        ArbolBB arbol = generarArbol(as);
-        Imagen ima = new Imagen(id,arbol.postOrden());
-        imagenes.insertar(id,ima);
-        ima.graficar();
-    }
-    
-    private static ArbolBB generarArbol(String as){
+
+    private static ArbolBB generarArbol(String as) {
         String[] a = as.split(",");
         ArbolBB arbol = new ArbolBB();
         for (String string : a) {
@@ -152,16 +162,9 @@ public class Controlador {
         }
         return arbol;
     }
-    
-    public static void Graficarimagen() throws IOException{
-        MatrizDispersa matrizDispersa = new MatrizDispersa();
-        matrizDispersa.insertar(1, 1, "#000000");
-        matrizDispersa.insertar(5, 5, "#000000");
-        MatrizDispersa matrizDispersa2 = new MatrizDispersa();
-        matrizDispersa2.insertar(2, 2, "#000000");
-        matrizDispersa2.insertar(3, 3, "#000000");
-        insertarCapa(2,matrizDispersa);
-        insertarCapa(3,matrizDispersa2);
-        generarImagenInOrden("111", "2,3");
+
+    public static void Graficarimagen() throws IOException {
+
+        
     }
 }

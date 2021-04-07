@@ -6,6 +6,7 @@
 package Estructuras;
 
 import Nodos.NodoListaDoble;
+import Objetos.Imagen;
 import javax.swing.JOptionPane;
 
 /**
@@ -30,6 +31,7 @@ public class ListaDobleCircular {
             inicio.setSiguiente(inicio);
             inicio.setAnterior(fin);
             size++;
+            ordenarLista();
         }else if (nodoNoExiste(nuevoNodo.getId())) {
             fin.setSiguiente(nuevoNodo);
             nuevoNodo.setSiguiente(inicio);
@@ -37,9 +39,11 @@ public class ListaDobleCircular {
             fin = nuevoNodo;
             inicio.setAnterior(fin);
             size++;
+            ordenarLista();
         } else{
-            System.out.println("NODO YA EXISTE: "+nuevoNodo.getId());
+            System.out.println("El nodo ya existe: "+nuevoNodo.getId());
         }
+        
     }
     
     public boolean nodoNoExiste(String id){
@@ -100,6 +104,46 @@ public class ListaDobleCircular {
             nodoSiguiente.setAnterior(nodoAnterior);
             size--;
             JOptionPane.showMessageDialog(null, "Se ha eliminado imagen correctamente.");
+        }
+    }
+    
+    public NodoListaDoble buscar(String id) {
+        if (inicio != null) {
+            NodoListaDoble aux = inicio;
+            do {
+                if (((Imagen)aux.getContenido()).getId().equals(id)) {
+                    return aux;
+                } else {
+                    aux = aux.getSiguiente();
+                }
+            } while (aux != inicio);
+        }
+        return null;
+    }
+    
+    public void ordenarLista() {
+        if (size > 1)
+        {
+            for(int i = 0; i < size;i++){
+                NodoListaDoble actual = inicio;
+                NodoListaDoble siguiente = actual.getSiguiente();
+                for(int j=1; j<size; j++){
+                    if(actual.getId().compareTo(siguiente.getId()) > 0){
+                        String id_1 = actual.getId();
+                        Object imagen_1 = actual.getContenido();
+
+                        actual.setId(siguiente.getId());
+                        actual.setContenido(siguiente.getContenido());
+                        siguiente.setId(id_1);
+                        siguiente.setContenido(imagen_1);
+                        actual = actual.getSiguiente();
+                        siguiente = siguiente.getSiguiente();
+                    }else{
+                        actual = actual.getSiguiente();
+                        siguiente = siguiente.getSiguiente();
+                    }
+                }
+            }
         }
     }
 }

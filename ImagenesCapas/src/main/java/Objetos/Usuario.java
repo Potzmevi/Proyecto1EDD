@@ -6,7 +6,7 @@
 package Objetos;
 
 import Estructuras.ListaDoble;
-import Nodos.NodoLista;
+import Nodos.NodoListaDoble;
 
 /**
  *
@@ -36,7 +36,7 @@ public class Usuario {
     }
     
     public void agregarImagen(String id,Imagen imagen){
-        imagenes.insertar(id,new NodoLista(id,imagen));
+        imagenes.insertar(id,new NodoListaDoble(id,imagen));
     }
     
     public void eliminarImagen(String id){
@@ -47,7 +47,7 @@ public class Usuario {
         imagenes = new ListaDoble();
     }
     
-    public NodoLista buscarImagen(String id) {
+    public NodoListaDoble buscarImagen(String id) {
         return imagenes.buscar(id);
     }
     
@@ -57,8 +57,8 @@ public class Usuario {
     
     public String getImString(){
         String salida = "";
-        NodoLista aux = imagenes.inicio;
-        NodoLista fin = imagenes.fin;
+        NodoListaDoble aux = imagenes.inicio;
+        NodoListaDoble fin = imagenes.fin;
         if(aux != null){
             salida += aux.getId();
             aux = aux.getSiguiente();
