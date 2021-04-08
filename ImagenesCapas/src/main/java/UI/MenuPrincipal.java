@@ -6,13 +6,19 @@
 package UI;
 
 import Archivos.parserCapas;
+import Archivos.parserImagen;
+import Main.Controlador;
 import static Main.Controlador.crearUsuario;
 import static Main.Controlador.generarImagenInOrden;
+import static Main.Controlador.listaimagenes;
+import Nodos.NodoListaDoble;
+import Objetos.Imagen;
 import java.io.File;
 import java.io.FileReader;
 import java.io.StringReader;
 import javafx.stage.FileChooser;
 import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 /**
@@ -52,6 +58,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
         jButton6 = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
         jButton7 = new javax.swing.JButton();
+        Opcion = new javax.swing.JComboBox<>();
         jPanel5 = new javax.swing.JPanel();
         jButton8 = new javax.swing.JButton();
         jButton9 = new javax.swing.JButton();
@@ -175,19 +182,25 @@ public class MenuPrincipal extends javax.swing.JFrame {
             }
         });
 
+        Opcion.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Capas", "Imagenes", "Usuarios" }));
+
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel4Layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
                 .addGap(32, 32, 32)
-                .addComponent(jButton7, javax.swing.GroupLayout.DEFAULT_SIZE, 155, Short.MAX_VALUE)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(Opcion, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButton7, javax.swing.GroupLayout.DEFAULT_SIZE, 155, Short.MAX_VALUE))
                 .addGap(33, 33, 33))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
-                .addGap(53, 53, 53)
+                .addGap(19, 19, 19)
+                .addComponent(Opcion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jButton7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGap(65, 65, 65))
         );
@@ -284,9 +297,11 @@ public class MenuPrincipal extends javax.swing.JFrame {
 
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
         JFileChooser fc = new JFileChooser();
-        FileNameExtensionFilter filtro = new FileNameExtensionFilter("*.Cap", "cap");
+        FileNameExtensionFilter filtro = new FileNameExtensionFilter("*.Cap, .IM, .USR", "cap", "im", "usr");
+
         fc.setFileFilter(filtro);
         int seleccion = fc.showOpenDialog(this);
+
         if (seleccion == JFileChooser.APPROVE_OPTION) {
             File fichero = fc.getSelectedFile();
             try {
@@ -297,10 +312,19 @@ public class MenuPrincipal extends javax.swing.JFrame {
                     cadena += (char) valor;
                     valor = fr.read();
                 }
-                parserCapas s = new parserCapas(new Archivos.LexerCup(new StringReader(cadena)));
-                s.parse();
-                generarImagenInOrden("111", "1,2");
-                crearUsuario("userF", "111");
+                if (Opcion.getSelectedIndex() == 0) {
+                    parserCapas s = new parserCapas(new Archivos.LexerCup(new StringReader(cadena)));
+                    s.parse();
+                    JOptionPane.showMessageDialog(null, "Capas cargadas con exito");
+                }else if(Opcion.getSelectedIndex() == 1){
+                    parserImagen s = new  parserImagen(new Archivos.LexerImg(new StringReader(cadena)));
+                    s.parse();
+                    JOptionPane.showMessageDialog(null, "Imagenes cargadas con exito");
+                    NodoListaDoble nodo = listaimagenes.buscar("30");
+                    Imagen imagen =(Imagen)nodo.getContenido();
+                    imagen.graficar();
+                }
+
             } catch (Exception e) {
                 System.out.println(e);
             }
@@ -371,6 +395,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JComboBox<String> Opcion;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton10;
     private javax.swing.JButton jButton11;

@@ -1,0 +1,45 @@
+package Archivos;
+
+import java_cup.runtime.*;
+import Estructuras.Cola;
+import Estructuras.MatrizDispersa;
+import Main.Controlador;
+import Nodos.NodoMatriz;
+import java_cup.runtime.XMLElement;
+import java.util.ArrayList;
+import java.util.List;
+
+parser code {:
+	List<Integer> lista = new ArrayList<>();
+	public parserImagen(LexerImg lex) {
+        super(lex);
+    }		 
+:}
+
+terminal Token Llave_a,Llave_c,Coma,Numero,Error;
+non terminal INICIO,SENTENCIA,IMAGEN,LINEA;
+
+start with INICIO;
+
+INICIO ::= INICIO SENTENCIA
+|
+;
+
+SENTENCIA ::=  Numero:D1 Llave_a IMAGEN Llave_c{:Controlador.insertarImagen(D1.getLexeme(),lista); :}
+| error:e {:  :} 
+;
+
+IMAGEN ::= IMAGEN LINEA
+| Numero:D2 {: lista = new ArrayList<>();lista.add(Integer.parseInt(D2.getLexeme())); :}
+;
+
+LINEA ::= Coma Numero:D3 {: lista.add(Integer.parseInt(D3.getLexeme())); :}
+| error:e {:  :} 
+ ;
+
+
+
+
+
+
+

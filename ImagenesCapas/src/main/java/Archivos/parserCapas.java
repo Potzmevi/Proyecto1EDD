@@ -19,7 +19,7 @@ import java_cup.runtime.XMLElement;
 public class parserCapas extends java_cup.runtime.lr_parser {
 
  public final Class getSymbolContainer() {
-    return sym.class;
+    return symCapas.class;
 }
 
   /** Default constructor. */

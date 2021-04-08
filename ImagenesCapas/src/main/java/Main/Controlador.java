@@ -8,12 +8,15 @@ package Main;
 import Archivos.parserCapas;
 import Estructuras.ArbolAVL;
 import Estructuras.ArbolBB;
+import Estructuras.Cola;
 import Estructuras.ListaDoble;
 import Estructuras.ListaDobleCircular;
 import Estructuras.MatrizDispersa;
 import Objetos.Usuario;
 import Nodos.NodoAVL;
+import Nodos.NodoAb;
 import Nodos.NodoListaDoble;
+import Nodos.NodoMatriz;
 import Objetos.Capa;
 import Objetos.Imagen;
 import java.io.IOException;
@@ -46,6 +49,26 @@ public class Controlador {
         usuarios.insertar(id, null);
     }
 
+    public static void insertarImagen(String id,List<Integer> a) throws IOException {
+        Imagen ima;
+        Cola cola = new Cola();
+        if(!a.isEmpty()) {
+            NodoAb nodo;
+            Capa capa;
+            for (int i : a) {
+                nodo = capas.buscar(i);
+                if(nodo != null) {
+                    capa = (Capa)nodo.dato;
+                    cola.encolar(new NodoListaDoble(String.valueOf(i),capa));
+                }
+            }
+            
+        } 
+        ima = new Imagen(id,cola);
+        NodoListaDoble nodo = new NodoListaDoble(id, ima);
+        listaimagenes.insertarNodo(nodo);
+    }
+    
     public static void insertarUsuario(String id, List<Integer> a) throws NodoDuplicado {
         Usuario usuario;
         ListaDoble lista = new ListaDoble();
@@ -135,14 +158,13 @@ public class Controlador {
         NodoListaDoble nodo = new NodoListaDoble(id, ima);
         listaimagenes.insertarNodo(nodo);
         ima.graficar();
-
     }
 
     public static void generarImagenPreOrden(String id, String as) throws IOException {
         ArbolBB arbol = generarArbol(as);
         Imagen ima = new Imagen(id, arbol.preOrden());
         NodoListaDoble nodo = new NodoListaDoble(id, ima);
-        listaimagenes.insertarNodo(nodo);
+        listaimagenes.insertarNodo(nodo); 
         ima.graficar();
     }
 
@@ -150,7 +172,7 @@ public class Controlador {
         ArbolBB arbol = generarArbol(as);
         Imagen ima = new Imagen(id, arbol.postOrden());
         NodoListaDoble nodo = new NodoListaDoble(id, ima);
-        listaimagenes.insertarNodo(nodo);
+        listaimagenes.insertarNodo(nodo);  
         ima.graficar();
     }
 

@@ -8,7 +8,7 @@ public class ArbolBB {
 
     private NodoAb raiz;
     private String nombre;
-    private Cola cola;
+    private Cola cola=new Cola();
 
     public ArbolBB() {
 
@@ -75,6 +75,7 @@ public class ArbolBB {
             return;
         }
         inOrden(nodo.izq);
+        
         cola.encolar(new NodoListaDoble((cola.size + 1) + "", nodo.dato));
         inOrden(nodo.der);
     }
@@ -91,8 +92,8 @@ public class ArbolBB {
     private void postOrden(NodoAb nodo) {
         if (null == nodo) {
             return;
-        }
-        postOrden(nodo.izq);
+        }            
+        postOrden(nodo.izq);       
         postOrden(nodo.der);
         cola.encolar(new NodoListaDoble((cola.size + 1) + "", nodo.dato));
     }
@@ -105,11 +106,13 @@ public class ArbolBB {
     }
 
     public Cola preOrden() {
+        this.cola = new Cola();
         preOrden(this.raiz);
         return cola;
     }
 
     public Cola postOrden() {
+        this.cola = new Cola();
         postOrden(this.raiz);
         return cola;
     }

@@ -3,7 +3,7 @@ import java_cup.runtime.*;
 import static Archivos.symCapas.*;
 
 %%
-%class LexerCup
+%class LexerImg
 %type java_cup.runtime.Symbol
 %cup
 %full
@@ -15,7 +15,6 @@ import static Archivos.symCapas.*;
 D = [0-9]+
 SEPARADOR = \r|\n|\r\n
 ESPACIO = {SEPARADOR} | [ \t\f]
-COLOR= [#][[a-fA-F]|[0-9]][[a-fA-F]|[0-9]][[a-fA-F]|[0-9]][[a-fA-F]|[0-9]][[a-fA-F]|[0-9]][[a-fA-F]|[0-9]]
 ERRORES = [^]
 
 %{
@@ -37,16 +36,10 @@ ERRORES = [^]
 /* Coma */
 ( "," ) {return symbol(sym.Coma,  yytext());}
 
-/* Punto y Coma */
-( ";" ) {return symbol(sym.PuntoComa,  yytext());}
-
 /* Numero */
 {D} {return  symbol(sym.Numero, yytext());}
 
-/* Color */
-{COLOR} {return  symbol(sym.Color, yytext());}
-
 /* Error */
-{ERRORES} {return  symbol(sym.Error, yytext());}
+{ERRORES} {/*Ignore*/}
 
 

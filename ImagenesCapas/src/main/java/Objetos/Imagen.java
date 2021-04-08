@@ -62,7 +62,7 @@ public class Imagen {
                     //System.out.println("Coordenada actual ("+x+","+y+")\n");
                     if(nodo != null) {
                         //System.out.println("Insertando en X: " + x + " en Y: " + y + " el color: " + nodo.getHexaColor());
-                        imAgen.insertar(nodo.getX(), nodo.getY(), nodo.getHexaColor());
+                        imAgen.insertar(nodo.getY(), nodo.getX(), nodo.getHexaColor());
                     }
                 }
             }
