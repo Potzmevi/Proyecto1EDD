@@ -39,8 +39,8 @@ public class Usuario {
         imagenes.insertar(id,new NodoListaDoble(id,imagen));
     }
     
-    public void eliminarImagen(String id){
-        imagenes.eliminar(id);
+    public NodoListaDoble eliminarImagen(String id){
+        return imagenes.eliminar(id);
     }
     
     public void limpiarLista(){

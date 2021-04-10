@@ -49,26 +49,26 @@ public class Controlador {
         usuarios.insertar(id, null);
     }
 
-    public static void insertarImagen(String id,List<Integer> a) throws IOException {
+    public static void insertarImagen(String id, List<Integer> a) throws IOException {
         Imagen ima;
         Cola cola = new Cola();
-        if(!a.isEmpty()) {
+        if (!a.isEmpty()) {
             NodoAb nodo;
             Capa capa;
             for (int i : a) {
                 nodo = capas.buscar(i);
-                if(nodo != null) {
-                    capa = (Capa)nodo.dato;
-                    cola.encolar(new NodoListaDoble(String.valueOf(i),capa));
+                if (nodo != null) {
+                    capa = (Capa) nodo.dato;
+                    cola.encolar(new NodoListaDoble(String.valueOf(i), capa));
                 }
             }
-            
-        } 
-        ima = new Imagen(id,cola);
+
+        }
+        ima = new Imagen(id, cola);
         NodoListaDoble nodo = new NodoListaDoble(id, ima);
         listaimagenes.insertarNodo(nodo);
     }
-    
+
     public static void insertarUsuario(String id, List<Integer> a) throws NodoDuplicado {
         Usuario usuario;
         ListaDoble lista = new ListaDoble();
@@ -85,6 +85,14 @@ public class Controlador {
             usuario = new Usuario(id);
         }
         usuarios.insertar(id, usuario);
+    }
+
+    public static MatrizDispersa buscarCapa(int a) {
+        NodoAb ab = capas.buscar(a);
+        if (ab != null) {
+            return ((Capa) ab.dato).getMatriz();
+        }
+        return null;
     }
 
     public static int getUsersSize() {
@@ -152,28 +160,59 @@ public class Controlador {
     }
 
     public static void generarImagenInOrden(String id, String as) throws IOException {
+        NodoListaDoble nodoprueba = listaimagenes.buscar(id);
         ArbolBB arbol = generarArbol(as);
-        Imagen ima = new Imagen(id, arbol.inOrden());
-        // System.out.println(((Capa)arbol.preOrden().getFinal().getInfo()).getId());
-        NodoListaDoble nodo = new NodoListaDoble(id, ima);
-        listaimagenes.insertarNodo(nodo);
-        ima.graficar();
+        if (nodoprueba == null) {
+            if (!arbol.estaVacio()) {
+                Imagen ima = new Imagen(id, arbol.inOrden());
+                // System.out.println(((Capa)arbol.preOrden().getFinal().getInfo()).getId());
+                NodoListaDoble nodo = new NodoListaDoble(id, ima);
+                listaimagenes.insertarNodo(nodo);
+                ima.graficar();
+                JOptionPane.showMessageDialog(null, "Imagen InOrden Creada con exito");
+            } else {
+                JOptionPane.showMessageDialog(null, "Las capas no existen");
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Una imagen con ese id ya existe");
+        }
     }
 
     public static void generarImagenPreOrden(String id, String as) throws IOException {
+        NodoListaDoble nodoprueba = listaimagenes.buscar(id);
         ArbolBB arbol = generarArbol(as);
-        Imagen ima = new Imagen(id, arbol.preOrden());
-        NodoListaDoble nodo = new NodoListaDoble(id, ima);
-        listaimagenes.insertarNodo(nodo); 
-        ima.graficar();
+        if (nodoprueba == null) {
+            if (!arbol.estaVacio()) {
+                Imagen ima = new Imagen(id, arbol.preOrden());
+                NodoListaDoble nodo = new NodoListaDoble(id, ima);
+                listaimagenes.insertarNodo(nodo);
+                ima.graficar();
+                JOptionPane.showMessageDialog(null, "Imagen PreOrdern Creada con exito");
+            } else {
+                JOptionPane.showMessageDialog(null, "Las capas no existen");
+            }
+
+        } else {
+            JOptionPane.showMessageDialog(null, "Una imagen con ese id ya existe");
+        }
     }
 
     public static void generarImagenPostOrden(String id, String as) throws IOException {
+        NodoListaDoble nodoprueba = listaimagenes.buscar(id);
         ArbolBB arbol = generarArbol(as);
-        Imagen ima = new Imagen(id, arbol.postOrden());
-        NodoListaDoble nodo = new NodoListaDoble(id, ima);
-        listaimagenes.insertarNodo(nodo);  
-        ima.graficar();
+        if (nodoprueba == null) {
+            if (!arbol.estaVacio()) {
+                Imagen ima = new Imagen(id, arbol.postOrden());
+                NodoListaDoble nodo = new NodoListaDoble(id, ima);
+                listaimagenes.insertarNodo(nodo);
+                ima.graficar();
+                JOptionPane.showMessageDialog(null, "Imagen PostOrdern Creada con exito");
+            } else {
+                JOptionPane.showMessageDialog(null, "Las capas no existen");
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Una imagen con ese id ya existe");
+        }
     }
 
     private static ArbolBB generarArbol(String as) {
@@ -187,6 +226,5 @@ public class Controlador {
 
     public static void Graficarimagen() throws IOException {
 
-        
     }
 }

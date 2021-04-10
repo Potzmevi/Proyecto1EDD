@@ -103,7 +103,6 @@ public class ListaDobleCircular {
             nodoAnterior.setSiguiente(nodoSiguiente);
             nodoSiguiente.setAnterior(nodoAnterior);
             size--;
-            JOptionPane.showMessageDialog(null, "Se ha eliminado imagen correctamente.");
         }
     }
     

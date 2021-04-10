@@ -7,6 +7,7 @@ package Estructuras;
 
 
 import Nodos.NodoListaDoble;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -27,6 +28,39 @@ public class ListaDoble {
         return false;
     }
     
+    public void insertar(NodoListaDoble nuevoNodo) {
+       
+            if (inicio == null)
+            {
+                inicio = nuevoNodo;
+                fin = nuevoNodo;
+                size++;
+            } else if (nodoNoExiste(nuevoNodo.getId()))
+            {
+                fin.setSiguiente(nuevoNodo);
+                nuevoNodo.setAnterior(fin);
+                fin = nuevoNodo;
+                size++;
+            } else
+            {
+                JOptionPane.showMessageDialog(null, "La imagen: " + nuevoNodo.getId() + " ya existe para el usuario");
+            }
+    }
+    
+     public boolean nodoNoExiste(String id) {
+        NodoListaDoble aux = inicio;
+        while (aux != null)
+        {
+            if (aux.getId().equals(id))
+            {
+                return false;
+            }
+            aux = aux.getSiguiente();
+        }
+        return true;
+    }
+    
+    
     public void insertar(String id,Object info){
         NodoListaDoble nodo = crearNodo(id,info);
         if(listaVacia()){
@@ -40,35 +74,26 @@ public class ListaDoble {
         size++;
     }
     
-    public void insertar(NodoListaDoble nodito){
-        NodoListaDoble nodo = nodito;
+   public NodoListaDoble eliminar(String id){
         if(listaVacia()){
-            inicio = fin = nodo;
-            inicio.setSiguiente(fin);
-            fin.setAnterior(inicio);
-        } else {
-            fin.setSiguiente(nodo);
-            nodo.setAnterior(fin);
-            fin = nodo;
-        }
-        size++;
-    }
-
-    public NodoListaDoble eliminar(String id){
-        if(listaVacia()){
-            System.out.println("Lista Vacia");
             return null;
         }
         NodoListaDoble aux = inicio;
-        if(id.equals(inicio.getId())) {
+        if(inicio==fin && id.equals(inicio.getId())){
+            inicio=null;
+            fin=null;
+            return aux;
+        }
+        else if(id.equals(inicio.getId())) {
             inicio = inicio.getSiguiente();
+            inicio.setAnterior(null);
             return aux;
         } else if(id.equals(fin.getId())) {
             aux= fin;
             fin = fin.getAnterior();
+            fin.setSiguiente(null);
             return aux;
         } else {
-
             while(aux.getSiguiente() != null) {
                 if(aux.getId().equals(id))
                     break;
@@ -83,9 +108,12 @@ public class ListaDoble {
                 return aux;
             }
             return null;
-
         }
     }
+
+    
+    
+    
     
     public NodoListaDoble buscar(String id) {
         if(listaVacia()){

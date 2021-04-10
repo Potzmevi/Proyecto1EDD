@@ -1,0 +1,45 @@
+package Archivos;
+import java_cup.runtime.*;
+import Estructuras.Cola;
+import Estructuras.MatrizDispersa;
+import Main.Controlador;
+import Nodos.NodoMatriz;
+import java_cup.runtime.XMLElement;
+import java.util.ArrayList;
+import java.util.List;
+
+parser code {:
+	List<Integer> lista = new ArrayList<>();
+	public parserUsuarios(LexUsuario lex) {
+        super(lex);
+    }		 
+:}
+
+terminal Token DosPuntos,Coma,PuntoComa,Numero,ID,Error;
+non terminal INICIO,SENTENCIA,USUARIO,LINEA;
+
+start with INICIO;
+
+INICIO ::= INICIO SENTENCIA
+|
+;
+
+SENTENCIA ::=  ID:I1 DosPuntos USUARIO PuntoComa{:Controlador.insertarUsuario(I1.getLexeme()+"",lista);:}
+| error:e {:  :} 
+;
+
+USUARIO ::= USUARIO LINEA
+| Numero:R1 {:lista = new ArrayList<>();lista.add(Integer.parseInt(R1.getLexeme()));:}
+|
+;
+
+LINEA ::=Coma Numero:R2{:lista.add(Integer.parseInt(R2.getLexeme()));:}
+| error:e {:  :} 
+ ;
+
+
+
+
+
+
+
