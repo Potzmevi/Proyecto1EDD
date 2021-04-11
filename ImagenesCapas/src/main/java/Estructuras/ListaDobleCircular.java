@@ -46,6 +46,8 @@ public class ListaDobleCircular {
         
     }
     
+    
+    
     public boolean nodoNoExiste(String id){
         NodoListaDoble aux = inicio;
         do
@@ -59,13 +61,34 @@ public class ListaDobleCircular {
         
         return true;
     }
+
+    public NodoListaDoble getInicio() {
+        return inicio;
+    }
+
+    public void setInicio(NodoListaDoble inicio) {
+        this.inicio = inicio;
+    }
+
+    public NodoListaDoble getFin() {
+        return fin;
+    }
+
+    public void setFin(NodoListaDoble fin) {
+        this.fin = fin;
+    }
+    
+    
     
     public void mostrarDatos(){
         NodoListaDoble aux = inicio;
+        String output=null;
         System.out.println("Lista Circular Doblemente Enlazada");
         do{
             System.out.print("Nodo: "+aux.getId());
+            output+=aux.getId();
             if(aux.getSiguiente()!=null){
+                
                 System.out.print(" Siguiente: "+aux.getSiguiente().getId());
             }
             if(aux.getAnterior()!=null){

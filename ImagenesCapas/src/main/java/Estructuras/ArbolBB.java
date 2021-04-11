@@ -75,7 +75,6 @@ public class ArbolBB {
             return;
         }
         inOrden(nodo.izq);
-        
         cola.encolar(new NodoListaDoble((cola.size + 1) + "", nodo.dato));
         inOrden(nodo.der);
     }
@@ -93,7 +92,7 @@ public class ArbolBB {
         if (null == nodo) {
             return;
         }            
-        postOrden(nodo.izq);       
+        postOrden(nodo.izq);      
         postOrden(nodo.der);
         cola.encolar(new NodoListaDoble((cola.size + 1) + "", nodo.dato));
     }

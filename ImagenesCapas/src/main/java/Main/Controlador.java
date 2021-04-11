@@ -19,6 +19,7 @@ import Nodos.NodoListaDoble;
 import Nodos.NodoMatriz;
 import Objetos.Capa;
 import Objetos.Imagen;
+import java.io.File;
 import java.io.IOException;
 import java.io.StringReader;
 import java.util.ArrayList;
@@ -99,8 +100,25 @@ public class Controlador {
         return usuarios.size;
     }
 
-    public static void graficarUsuarios() {
-        String salida = "diagraph {\n";
+    public static void graficarListaImagenes() throws IOException {
+        String salida = "digraph G{";
+        NodoListaDoble aux = listaimagenes.getInicio();
+        for (int i = 0; i < listaimagenes.size; i++) {
+            salida += aux.getId() + "->" + aux.getSiguiente().getId() +";";
+            salida += aux.getSiguiente().getId() + "->" + aux.getSiguiente().getAnterior().getId() + ";";
+            aux = aux.getSiguiente();
+        }
+        salida = salida + "}";
+        File imagenSalida = new File("./grafica.dot");
+        if (!imagenSalida.exists()) {
+            imagenSalida.createNewFile();
+        } else {
+            imagenSalida.delete();
+            imagenSalida.createNewFile();
+        }
+        Main.saveFile(salida, imagenSalida.getAbsolutePath());
+        String command = "dot -Tpng grafica.dot -o ListaImagenes.png";
+        Runtime.getRuntime().exec(command);
     }
 
     public static void graficarCapas() {
