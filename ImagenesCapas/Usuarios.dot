@@ -1,0 +1,8 @@
+digraph G {
+subgraph cluster_0 {
+B->A;
+B->D;
+D->J;
+label = " Arbol de Usuarios ";
+}
+}

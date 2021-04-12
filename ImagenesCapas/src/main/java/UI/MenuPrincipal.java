@@ -8,6 +8,7 @@ package UI;
 import Archivos.parserCapas;
 import Archivos.parserImagen;
 import Archivos.parserUsuarios;
+import Estructuras.MatrizDispersa;
 import Main.Controlador;
 import static Main.Controlador.crearUsuario;
 import static Main.Controlador.generarImagenInOrden;
@@ -354,20 +355,31 @@ public class MenuPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton7ActionPerformed
 
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
-        // TODO add your handling code here:
+         try {
+            Controlador.graficarUsuarios();
+            JOptionPane.showMessageDialog(null, "Arbol de usuarios creado");
+        } catch (IOException ex) {
+            System.out.println(ex);
+        }
     }//GEN-LAST:event_jButton8ActionPerformed
 
     private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
-        // TODO add your handling code here:
+        try {
+            Controlador.graficarCapas();
+            JOptionPane.showMessageDialog(null, "Arbol de capas creado");
+        } catch (IOException ex) {
+            System.out.println(ex);
+        }
     }//GEN-LAST:event_jButton9ActionPerformed
 
     private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
-        // TODO add your handling code here:
+       new GraficarCapasImagen();
     }//GEN-LAST:event_jButton10ActionPerformed
 
     private void jButton11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton11ActionPerformed
         try {
             Controlador.graficarListaImagenes();
+            JOptionPane.showMessageDialog(null, "Lista de imagenes creada");
         } catch (IOException ex) {
             System.out.println(ex);
         }

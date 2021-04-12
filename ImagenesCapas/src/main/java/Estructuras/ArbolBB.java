@@ -8,7 +8,8 @@ public class ArbolBB {
 
     private NodoAb raiz;
     private String nombre;
-    private Cola cola=new Cola();
+    private Cola cola = new Cola();
+    private String graficaArbolUsuarios = "";
 
     public ArbolBB() {
 
@@ -20,7 +21,7 @@ public class ArbolBB {
     }
 
     public boolean estaVacio() {
-        
+
         if (raiz == null) {
             return true;
         }
@@ -36,7 +37,7 @@ public class ArbolBB {
     }
 
     public void insertar(NodoAb nodo) {
-        
+
         if (estaVacio()) {
             raiz = nodo;
         } else {
@@ -45,7 +46,7 @@ public class ArbolBB {
     }
 
     public NodoAb buscar(int id, NodoAb raiz) {
-        
+
         if (estaVacio()) {
             return null;
         }
@@ -66,7 +67,7 @@ public class ArbolBB {
     }
 
     public NodoAb buscar(int id) {
-        
+
         return buscar(id, this.raiz);
     }
 
@@ -91,8 +92,8 @@ public class ArbolBB {
     private void postOrden(NodoAb nodo) {
         if (null == nodo) {
             return;
-        }            
-        postOrden(nodo.izq);      
+        }
+        postOrden(nodo.izq);
         postOrden(nodo.der);
         cola.encolar(new NodoListaDoble((cola.size + 1) + "", nodo.dato));
     }
@@ -167,5 +168,27 @@ public class ArbolBB {
                 return a + b;
             }
         }
+    }
+
+    public String obtenerGrafica() {
+        graficaArbolUsuarios = "";
+        obtenerGrafica(this.raiz);
+        return graficaArbolUsuarios;
+    }
+
+    private void obtenerGrafica(NodoAb nodo) {
+        if (null == nodo) {
+            return;
+        }
+        obtenerGrafica(nodo.izq);
+        try {
+            graficaArbolUsuarios +=  nodo.llave + "->"  + nodo.izq.llave + ";\n";
+        } catch (Exception e) {
+        }
+        try {
+            graficaArbolUsuarios +=  nodo.llave + "->"  + nodo.der.llave + ";\n";
+        } catch (Exception e) {
+        }
+        obtenerGrafica(nodo.der);
     }
 }

@@ -30,6 +30,7 @@ public class Cola implements Cloneable{
             size++;
         } else {
             inicio = fin = nuevo;
+            size++;
         }
     }
     

@@ -1,0 +1,3 @@
+digraph G{   
+subgraph Lista { node [shape = square,height=.1]; label="Lista doble circular"; 
+}}

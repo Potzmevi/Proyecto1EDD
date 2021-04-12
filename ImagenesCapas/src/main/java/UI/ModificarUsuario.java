@@ -5,8 +5,10 @@
  */
 package UI;
 
+import Estructuras.ColaImagenes;
 import Main.Controlador;
 import Objetos.Usuario;
+import java.util.ArrayList;
 import javax.swing.JOptionPane;
 
 /**
@@ -74,6 +76,7 @@ public class ModificarUsuario extends javax.swing.JFrame {
         jTextField3.setToolTipText("");
 
         jButton2.setText("Modificar");
+        jButton2.setEnabled(false);
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton2ActionPerformed(evt);
@@ -152,20 +155,45 @@ public class ModificarUsuario extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-
         Usuario a = Controlador.buscarUsuario(jTextField1.getText());
-        if(a != null) {
+
+        if (a != null) {
+            jTextField1.setEnabled(false);
             jTextField2.setText(jTextField1.getText());
-            jTextField3.setText(a.getImString());
-            jButton1.setEnabled(true);
+            ColaImagenes imagenes = a.getImagenes();
+                ArrayList<String> lista = imagenes.obtenerImagenes();
+                String texto="";
+                for (int i = 0; i < lista.size(); i++) {
+                    texto+=lista.get(i);
+                    texto+=",";
+                }
+            jTextField3.setText(texto);
+            jButton2.setEnabled(true);
         } else {
             JOptionPane.showMessageDialog(null, "Usuario no encontrado");
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-       Controlador.modificarUsuario(jTextField1.getText(), jTextField2.getText(), jTextField3.getText());
-        this.dispose();
+        if (jTextField2.getText() != null && jTextField3.getText() != null) {
+            int num = 0;
+
+            try {
+                String[] a = jTextField3.getText().split(",");
+                num = Integer.parseInt(a[0]);
+                if (num != 0) {
+                    Controlador.modificarUsuario(jTextField1.getText(), jTextField2.getText(), jTextField3.getText());
+                    this.dispose();
+                }
+
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, "Por favor ingrese numeros separados por coma para las imagenes");
+            }
+
+        } else {
+            JOptionPane.showMessageDialog(null, "Por favor llene los campos");
+        }
+
     }//GEN-LAST:event_jButton2ActionPerformed
 
     /**

@@ -5,7 +5,9 @@
  */
 package Objetos;
 
+import Estructuras.ColaImagenes;
 import Estructuras.ListaDoble;
+import Nodos.NodoCola;
 import Nodos.NodoListaDoble;
 
 /**
@@ -13,16 +15,16 @@ import Nodos.NodoListaDoble;
  * @author meza4
  */
 public class Usuario {
-    String id;
-    ListaDoble imagenes;
+    private String id;
+    private ColaImagenes imagenes;
     
     public Usuario(String nombre) {
         
         this.id = nombre;
-        this.imagenes = new ListaDoble();
+        this.imagenes = new ColaImagenes();
     }
     
-    public Usuario(String nombre, ListaDoble imagenes) {
+    public Usuario(String nombre, ColaImagenes imagenes) {
         this(nombre);
         this.imagenes = imagenes;
     }
@@ -34,44 +36,29 @@ public class Usuario {
     public String getString(){
         return this.id;
     }
-    
-    public void agregarImagen(String id,Imagen imagen){
-        imagenes.insertar(id,new NodoListaDoble(id,imagen));
+
+    public ColaImagenes getImagenes() {
+        return imagenes;
     }
-    
-    public NodoListaDoble eliminarImagen(String id){
-        return imagenes.eliminar(id);
-    }
-    
-    public void limpiarLista(){
-        imagenes = new ListaDoble();
-    }
-    
-    public NodoListaDoble buscarImagen(String id) {
-        return imagenes.buscar(id);
-    }
-    
-    public void setListaImagenes(ListaDoble imagenes) {
+
+    public void setImagenes(ColaImagenes imagenes) {
         this.imagenes = imagenes;
     }
     
-    public String getImString(){
-        String salida = "";
-        NodoListaDoble aux = imagenes.inicio;
-        NodoListaDoble fin = imagenes.fin;
-        if(aux != null){
-            salida += aux.getId();
-            aux = aux.getSiguiente();
-            if(aux != fin){
-                while(aux != null) {
-                    salida += ",";
-                    salida += aux.getId();
-                    aux = aux.getSiguiente();
-                }
-            }
-            return salida;
-        }
-        return null;
     
+    
+    
+    
+    public void limpiarLista(){
+        imagenes = new ColaImagenes();
     }
+    
+    
+    
+    public void setListaImagenes(ColaImagenes imagenes) {
+        this.imagenes = imagenes;
+    }
+    
+    
+    
 }

@@ -18,7 +18,8 @@ public class ArbolAVL {
 
     private NodoAVL raiz;
     public int size;
-
+    private String graficaArbolCapas = "";
+    
     public ArbolAVL() {
         this.raiz = null;
         size = 0;
@@ -186,6 +187,31 @@ public class ArbolAVL {
         return nuevoPadre;
     }
 
+     
+     
+     public String obtenerGrafica() {
+        graficaArbolCapas = "";
+        obtenerGrafica(this.raiz);
+        return graficaArbolCapas;
+    }
+    
+     private void obtenerGrafica(NodoAVL nodo) {
+        if (null == nodo) {
+            return;
+        }
+        obtenerGrafica(nodo.getIzq());
+        try {
+            
+            graficaArbolCapas += nodo.getClave()+ "->"  + nodo.getIzq().getClave()+ ";\n";
+        } catch (Exception e) {
+        }
+        try {
+            graficaArbolCapas +=  nodo.getClave()+ "->"  + nodo.getDer().getClave() + ";\n";
+        } catch (Exception e) {
+        }
+        obtenerGrafica(nodo.getDer());
+    }
+     
     public void insertar(String id, Object info) throws NodoDuplicado {
         NodoAVL nuevo = new NodoAVL(id, info);
         if (raiz == null) {

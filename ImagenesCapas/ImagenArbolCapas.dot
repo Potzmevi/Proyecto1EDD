@@ -1,0 +1,19 @@
+digraph G {
+subgraph cluster_1 {
+2->1;
+3->2;
+3->5;
+5->4;
+5->8;
+label = " Arbol de Capas ";
+}
+subgraph cluster_0 {
+Capa1->Capa5; 
+Capa1->1[lhead = cluster_1]; 
+Capa5->Capa2; 
+Capa5->5[lhead = cluster_1]; 
+Capa2->2[lhead = cluster_1]; 
+label = " Capas Imagen ";
+}
+Imagen30->Capa1[lhead = cluster_0]; 
+}

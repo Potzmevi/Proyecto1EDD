@@ -5,11 +5,13 @@
  */
 package UI;
 
+import Estructuras.ColaImagenes;
 import Main.Controlador;
 import Nodos.NodoListaDoble;
 import Objetos.Imagen;
 import Objetos.Usuario;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -150,11 +152,12 @@ public class BuscarUsuario extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-       Usuario user = Controlador.buscarUsuario(jTextField1.getText());
-        if (user != null && user.getImString()!=null) {
-            String[] p = user.getImString().split(",");
-            for (String string : p) {
-                idImg.addItem(string);
+        Usuario user = Controlador.buscarUsuario(jTextField1.getText());
+        if (user != null) {
+            ColaImagenes imagenes = user.getImagenes();
+            ArrayList<String> lista = imagenes.obtenerImagenes();
+            for (int i = 0; i < lista.size(); i++) {
+                idImg.addItem(lista.get(i));
             }
             jButton2.setEnabled(true);
         } else {
@@ -163,8 +166,8 @@ public class BuscarUsuario extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        NodoListaDoble nodo =Controlador.listaimagenes.buscar(idImg.getSelectedItem().toString());
-        Imagen ima=(Imagen)nodo.getContenido();
+        NodoListaDoble nodo = Controlador.listaimagenes.buscar(idImg.getSelectedItem().toString());
+        Imagen ima = (Imagen) nodo.getContenido();
         try {
             ima.graficar();
         } catch (IOException ex) {
@@ -175,12 +178,14 @@ public class BuscarUsuario extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        Controlador.listaimagenes.eliminarNodo(idImg.getSelectedItem().toString());
-         Usuario user = Controlador.buscarUsuario(jTextField1.getText());
-         NodoListaDoble nodo = user.eliminarImagen(idImg.getSelectedItem().toString());
-         if(nodo!=null){
-             JOptionPane.showMessageDialog(null, "Imagen eliminada con exito");
-         }
+        try {
+            Controlador.listaimagenes.eliminarNodo(idImg.getSelectedItem().toString());
+            Usuario user = Controlador.buscarUsuario(jTextField1.getText());
+            user.getImagenes().eliminar(idImg.getSelectedItem().toString());
+            JOptionPane.showMessageDialog(null, "Imagen eliminada con exito");
+        } catch (Exception E) {
+            JOptionPane.showMessageDialog(null, "Imagen no eliminada");
+        }
         this.dispose();
     }//GEN-LAST:event_jButton3ActionPerformed
 

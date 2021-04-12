@@ -9,12 +9,14 @@ import Archivos.parserCapas;
 import Estructuras.ArbolAVL;
 import Estructuras.ArbolBB;
 import Estructuras.Cola;
+import Estructuras.ColaImagenes;
 import Estructuras.ListaDoble;
 import Estructuras.ListaDobleCircular;
 import Estructuras.MatrizDispersa;
 import Objetos.Usuario;
 import Nodos.NodoAVL;
 import Nodos.NodoAb;
+import Nodos.NodoCola;
 import Nodos.NodoListaDoble;
 import Nodos.NodoMatriz;
 import Objetos.Capa;
@@ -67,21 +69,24 @@ public class Controlador {
         }
         ima = new Imagen(id, cola);
         NodoListaDoble nodo = new NodoListaDoble(id, ima);
+       
         listaimagenes.insertarNodo(nodo);
     }
 
     public static void insertarUsuario(String id, List<Integer> a) throws NodoDuplicado {
         Usuario usuario;
-        ListaDoble lista = new ListaDoble();
+        ColaImagenes cola = new ColaImagenes();
         if (!a.isEmpty()) {
             NodoListaDoble nodo;
             for (Integer i : a) {
                 nodo = listaimagenes.buscar(i + "");
+                Imagen ima=(Imagen) nodo.getContenido();
                 if (nodo != null) {
-                    lista.insertar(nodo);
+                    cola.insertar(ima);
+                    
                 }
             }
-            usuario = new Usuario(id, lista);
+            usuario = new Usuario(id, cola);
         } else {
             usuario = new Usuario(id);
         }
@@ -101,15 +106,40 @@ public class Controlador {
     }
 
     public static void graficarListaImagenes() throws IOException {
-        String salida = "digraph G{";
+        String salida = "digraph G{   \n";
+        salida += "subgraph Lista { node [shape = square,height=.1]; label=\"Lista doble circular\"; \n";
         NodoListaDoble aux = listaimagenes.getInicio();
         for (int i = 0; i < listaimagenes.size; i++) {
-            salida += aux.getId() + "->" + aux.getSiguiente().getId() +";";
-            salida += aux.getSiguiente().getId() + "->" + aux.getSiguiente().getAnterior().getId() + ";";
+
+            salida += aux.getId() + "->" + aux.getSiguiente().getId() + " [constraint=false]; \n";
+            salida += aux.getSiguiente().getId() + "->" + aux.getSiguiente().getAnterior().getId() + "[constraint=false]; \n";
             aux = aux.getSiguiente();
         }
         salida = salida + "}";
-        File imagenSalida = new File("./grafica.dot");
+        NodoListaDoble aux2 = listaimagenes.getInicio();
+        for (int i = 0; i < listaimagenes.size; i++) {
+            Imagen ima = (Imagen) aux2.getContenido();
+            Cola cola = ima.getCapas();
+            salida += "subgraph cluster_" + i + "{node [shape = square,height=.1]; rankdir=LR; label=\"Cola" + i + "\";  \n";
+            NodoListaDoble nodoCola = cola.getInicio();
+            for (int j = 0; j < cola.size(); j++) {
+                salida += "Cola" + i + "_" + "Capa" + nodoCola.getId();
+                if (nodoCola.getSiguiente() != null) {
+                    salida += "->" + "Cola" + i + "_" + "Capa" + nodoCola.getSiguiente().getId() + "; \n";
+                    nodoCola = nodoCola.getSiguiente();
+                }
+                if (j + 2 == cola.size()) {
+                    break;
+                }
+            }
+            salida += " } \n";
+            nodoCola = cola.getInicio();
+            salida += aux2.getId() + "->" + "Cola" + i + "_" + "Capa" + nodoCola.getId() + "[lhead = cluster_" + i + "]; \n";
+            aux2 = aux2.getSiguiente();
+        }
+        salida = salida + "}";
+
+        File imagenSalida = new File("./ListaImagenes.dot");
         if (!imagenSalida.exists()) {
             imagenSalida.createNewFile();
         } else {
@@ -117,36 +147,132 @@ public class Controlador {
             imagenSalida.createNewFile();
         }
         Main.saveFile(salida, imagenSalida.getAbsolutePath());
-        String command = "dot -Tpng grafica.dot -o ListaImagenes.png";
+        String command = "dot -Tpng ListaImagenes.dot -o ListaImagenes.png";
         Runtime.getRuntime().exec(command);
     }
 
-    public static void graficarCapas() {
-        String salida = "diagraph g {\n";
+    public static void graficarCapas() throws IOException {
+        String capastexto = null;
+        capastexto = capas.obtenerGrafica();
+        String salida = "digraph G {\n";
+        salida += "subgraph cluster_0 {\n";
+        salida += capastexto;
+        salida += "label = \" Arbol de Capas \";\n";
+        salida += "}\n";
+        salida += "}\n";
 
+        File imagenSalida = new File("./Capas.dot");
+        if (!imagenSalida.exists()) {
+            imagenSalida.createNewFile();
+        } else {
+            imagenSalida.delete();
+            imagenSalida.createNewFile();
+        }
+        Main.saveFile(salida, imagenSalida.getAbsolutePath());
+        String command = "dot -Tpng Capas.dot -o ArbolCapas.png";
+        Runtime.getRuntime().exec(command);
     }
 
     public static void modificarUsuario(String id, String newId, String lista) {
         NodoAVL userNode = usuarios.buscar(id);
         NodoAVL userNew = usuarios.buscar(newId);
         Usuario usuario = buscarUsuario(id);
-        ListaDoble nuevalista = new ListaDoble();
+        ColaImagenes nuevalista = new ColaImagenes();
+        
         if (userNew == null) {
             String[] a = lista.split(",");
             for (String i : a) {
                 NodoListaDoble nodo = listaimagenes.buscar(i);
+                Imagen ima = (Imagen)nodo.getContenido();
+                System.out.println("si");
                 if (nodo != null) {
-                    nuevalista.insertar(nodo);
+                    nuevalista.insertar(ima);
                 }
             }
             usuario.setId(newId);
             usuario.setListaImagenes(nuevalista);
             userNode.setInfo(usuario);
             userNode.setClave(newId);
+            System.out.println("si");
             JOptionPane.showMessageDialog(null, "Usuario modificado");
         } else {
             JOptionPane.showMessageDialog(null, "Usuario con ese ID ya existe");
         }
+    }
+
+    public static void graficarImagenArbolCapas(String id) throws IOException {
+        String capastexto = null;
+        capastexto = capas.obtenerGrafica();
+        NodoListaDoble nodo = listaimagenes.buscar(id);
+        if (nodo != null) {
+            Imagen ima = (Imagen) nodo.getContenido();
+            Cola cola = ima.getCapas();
+            String salida = "digraph G {\n";
+            salida += "subgraph cluster_1 {\n";
+            salida += capastexto;
+            salida += "label = \" Arbol de Capas \";\n";
+            salida += "}\n";
+            salida += "subgraph cluster_0 {\n";
+            NodoListaDoble nodoCola = cola.getInicio();
+            for (int j = 0; j < cola.size(); j++) {
+                salida += "Capa" + nodoCola.getId();
+                if (nodoCola.getSiguiente() != null) {
+                    salida += "->" + "Capa" + nodoCola.getSiguiente().getId() + "; \n";
+                    if (capas.buscar(Integer.parseInt(nodoCola.getId())) != null) {
+                        salida += "Capa" + nodoCola.getId() + "->" + nodoCola.getId() + "[lhead = cluster_1]; \n";
+                    }
+                    if (capas.buscar(Integer.parseInt(nodoCola.getSiguiente().getId())) != null && j + 2 == cola.size()) {
+                        salida += "Capa" + nodoCola.getSiguiente().getId() + "->" + nodoCola.getSiguiente().getId() + "[lhead = cluster_1]; \n";
+                    }
+                    nodoCola = nodoCola.getSiguiente();
+                }
+                if (j + 2 == cola.size()) {
+                    break;
+                }
+
+            }
+            salida += "label = \" Capas Imagen \";\n";
+            salida += "}\n";
+            nodoCola = cola.getInicio();
+            salida += "Imagen" + nodo.getId() + "->" + "Capa" + nodoCola.getId() + "[lhead = cluster_0]; \n";
+            salida += "}\n";
+
+            File imagenSalida = new File("./ImagenArbolCapas.dot");
+            if (!imagenSalida.exists()) {
+                imagenSalida.createNewFile();
+            } else {
+                imagenSalida.delete();
+                imagenSalida.createNewFile();
+            }
+            Main.saveFile(salida, imagenSalida.getAbsolutePath());
+            String command = "dot -Tpng ImagenArbolCapas.dot -o ImagenArbolCapasCola.png";
+            Runtime.getRuntime().exec(command);
+        } else {
+            JOptionPane.showMessageDialog(null, "La imagen no existe");
+        }
+
+    }
+
+    public static void graficarUsuarios() throws IOException {
+        String capastexto = null;
+        capastexto = usuarios.obtenerGrafica();
+        String salida = "digraph G {\n";
+        salida += "subgraph cluster_0 {\n";
+        salida += capastexto;
+        salida += "label = \" Arbol de Usuarios \";\n";
+        salida += "}\n";
+        salida += "}\n";
+
+        File imagenSalida = new File("./Usuarios.dot");
+        if (!imagenSalida.exists()) {
+            imagenSalida.createNewFile();
+        } else {
+            imagenSalida.delete();
+            imagenSalida.createNewFile();
+        }
+        Main.saveFile(salida, imagenSalida.getAbsolutePath());
+        String command = "dot -Tpng Usuarios.dot -o ArbolUsuarios.png";
+        Runtime.getRuntime().exec(command);
     }
 
     public static Usuario buscarUsuario(String id) {

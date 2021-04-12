@@ -6,6 +6,7 @@
 package UI;
 
 import Main.Controlador;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -114,8 +115,26 @@ public class CrearUsuario extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        Controlador.crearUsuario(jTextField1.getText(), jTextField2.getText());
-        this.dispose();
+        if (jTextField1.getText() != null && jTextField2.getText() != null) {
+            int num = 0;
+            
+            try {
+                String[] a = jTextField2.getText().split(",");
+                num = Integer.parseInt(a[0]);
+                if (num != 0) {
+                    Controlador.crearUsuario(jTextField1.getText(), jTextField2.getText());
+                    this.dispose();
+                }
+                    
+                
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, "Por favor ingrese numeros separados por coma para las imagenes");
+            }
+
+        } else {
+            JOptionPane.showMessageDialog(null, "Por favor llene los campos");
+        }
+
     }//GEN-LAST:event_jButton3ActionPerformed
 
     /**
@@ -149,7 +168,7 @@ public class CrearUsuario extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new CrearUsuario().setVisible(true);
-                
+
             }
         });
     }

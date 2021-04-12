@@ -55,7 +55,7 @@ public class BuscarImagen extends javax.swing.JFrame {
 
         jLabel2.setFont(new java.awt.Font("Consolas", 1, 17)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel2.setText("ID Capa:");
+        jLabel2.setText("ID imagen:");
 
         jTextField1.setToolTipText("");
 
@@ -71,17 +71,16 @@ public class BuscarImagen extends javax.swing.JFrame {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(112, 112, 112)
-                .addComponent(jLabel2)
-                .addGap(0, 0, Short.MAX_VALUE))
-            .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(70, 70, 70)
                         .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(89, 89, 89)
-                        .addComponent(jButton1)))
+                        .addComponent(jButton1))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(103, 103, 103)
+                        .addComponent(jLabel2)))
                 .addContainerGap(75, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -116,6 +115,7 @@ public class BuscarImagen extends javax.swing.JFrame {
             Imagen ima =(Imagen) nodo.getContenido();
             try {
                 ima.graficar();
+                JOptionPane.showMessageDialog(null, "Imagen generada con exito");
             } catch (IOException ex) {
                 System.out.println(ex);
             }

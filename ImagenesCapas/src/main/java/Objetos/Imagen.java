@@ -94,6 +94,10 @@ public class Imagen {
     public void setImagen(MatrizDispersa imagen) {
         this.imagen = imagen;
     }
+
+    public Cola getCapas() {
+        return capas;
+    }
     
     
     
