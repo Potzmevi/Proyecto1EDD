@@ -255,10 +255,35 @@ public class MatrizDispersa {
             imagenSalida.createNewFile();
         }
         Main.saveFile(salida, imagenSalida.getAbsolutePath());
-        String command = "dot -Tpng grafica.dot -o ImagenGenerada.png";
+        String command = "dot -Tpng grafica.dot -o Imagen.png";
         Runtime.getRuntime().exec(command);
     }
 
+    public void graficarCapa() throws IOException {
+        String salida = "digraph dibujo{\nnode [shape=plaintext]\na [label=<<TABLE BORDER=\"1\" CELLBORDER=\"1\" CELLSPACING=\"0\">\n";
+        for (int y = 1; y <= this.totalFilas; y++) {
+            salida = salida + "<TR>  ";
+            for (int x = 1; x <= this.totalColumnas; x++) {
+                if (triangular(x, y) != null) {
+                    salida = salida + "<TD>"+ triangular(x, y).getHexaColor()+"</TD>  ";
+                } 
+            }
+            salida = salida + "</TR>\n";
+        }
+        salida = salida + "</TABLE>>];\n}";
+        File imagenSalida = new File("./Matriz.dot");
+        if (!imagenSalida.exists()) {
+            imagenSalida.createNewFile();
+        } else {
+            imagenSalida.delete();
+            imagenSalida.createNewFile();
+        }
+        Main.saveFile(salida, imagenSalida.getAbsolutePath());
+        String command = "dot -Tpng Matriz.dot -o Matrizcapa.png";
+        Runtime.getRuntime().exec(command);
+    }
+    
+    
     public NodoMatriz buscarNodo(int x, int y) {
         NodoMatriz aux = inicio.getSigColumna();
 
